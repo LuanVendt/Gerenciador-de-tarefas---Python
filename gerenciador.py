@@ -63,6 +63,26 @@ def completar_tarefa(tarefas, indice_tarefa):
     input('\nPressione qualquer tecla para voltar ao menu principal.')
     return
 
+def deletar_tarefa_completada(tarefas, indice_tarefa):
+    indice_tarefa_ajustado = indice_tarefa -1
+
+    if indice_tarefa_ajustado < 0 or indice_tarefa_ajustado >= len(tarefas):
+        print(f"\nTarefa '{indice_tarefa}' não encontrada.")
+        input('\nPressione qualquer tecla para voltar ao menu principal.')
+        return
+    
+    if tarefas[indice_tarefa_ajustado]['completada'] != True:
+        print(f"\nTarefa '{indice_tarefa}' não está completada!.")
+
+        input('\nPressione qualquer tecla para voltar ao menu principal.')
+        return
+    
+    tarefas.remove(tarefas[indice_tarefa_ajustado])
+
+    print(f"\nTarefa '{indice_tarefa}' deletada com sucesso.")
+    input('\nPressione qualquer tecla para voltar ao menu principal.')
+    return
+
 tarefas = []
 
 while True:
@@ -76,7 +96,13 @@ while True:
     print('5. Deletar tarefas completadas')
     print('6. Sair')
 
-    escolha = int(input('\nDigite a sua escolha: '))
+    try:
+        escolha = int(input('\nDigite a sua escolha: '))
+    except:
+        print('\nEscolha Inválida!')
+        input('\nDigite qualquer tecla para voltar ao menu principal.')
+        continue
+        
     if escolha == 1:
         os.system('cls')
         nome_tarefa = input('\nDigite o nome da tarefa que deseja adicionar: ')
@@ -111,9 +137,25 @@ while True:
 
         completar_tarefa(tarefas, indice_tarefa)
     
+    elif escolha == 5:
+        os.system('cls')
+        ver_tarefas_aux(tarefas)
+        try:
+            indice_tarefa = int(input('\nDigite o número da tarefa que deseja deletar: '))
+        except ValueError:
+            print('\nEntrada inválida. Por favor, digite um número inteiro.')
+            input('\nPressione qualquer tecla para voltar ao menu principal.')
+            continue
+        
+        deletar_tarefa_completada(tarefas, indice_tarefa)
+
     elif escolha == 6:
         print('\nPrograma finalizado.')
         break
+
+    else:
+        print('\nEscolha inválida.')
+        input('\nPressione qualquer tecla para voltar ao menu principal.')
 
 
  
