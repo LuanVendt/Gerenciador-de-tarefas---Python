@@ -43,6 +43,25 @@ def atualizar_nome_tarefa(tarefas, indice_tarefa, novo_nome_tarefa):
     input('\nPressione qualquer tecla para voltar ao menu principal.')
     return
 
+def completar_tarefa(tarefas, indice_tarefa):
+    indice_tarefa_ajustado = indice_tarefa - 1
+
+    if indice_tarefa_ajustado < 0 or indice_tarefa_ajustado >= len(tarefas):
+        print(f"\nTarefa '{indice_tarefa}' não encontrada.")
+        input('\nPressione qualquer tecla para voltar ao menu principal.')
+        return
+
+    if tarefas[indice_tarefa_ajustado]['completada'] == True:
+        print(f"\nTarefa '{indice_tarefa}' já está completada.")
+
+        input('\nPressione qualquer tecla para voltar ao menu principal.')
+        return
+    
+    tarefas[indice_tarefa_ajustado]['completada'] = True
+
+    print(f"\nTarefa '{indice_tarefa}' completada com sucesso.")
+    input('\nPressione qualquer tecla para voltar ao menu principal.')
+    return
 
 tarefas = []
 
@@ -70,9 +89,27 @@ while True:
     elif escolha == 3:
         os.system('cls')
         ver_tarefas_aux(tarefas)
-        indice_tarefa = int(input('\nDigite o número da tarefa que deseja atualizar: '))
+        try:
+            indice_tarefa = int(input('\nDigite o número da tarefa que deseja atualizar: '))
+        except ValueError:
+            print('\nEntrada inválida. Por favor, digite um número inteiro.')
+            input('\nPressione qualquer tecla para voltar ao menu principal.')
+            continue
+
         novo_nome = input('\nDigite o novo nome da tarefa: ')
         atualizar_nome_tarefa(tarefas, indice_tarefa, novo_nome)
+    
+    elif escolha == 4:
+        os.system('cls')
+        ver_tarefas_aux(tarefas)
+        try:
+            indice_tarefa = int(input('\nDigite o número da tarefa que deseja completar: '))
+        except ValueError:
+            print('\nEntrada inválida. Por favor, digite um número inteiro.')
+            input('\nPressione qualquer tecla para voltar ao menu principal.')
+            continue
+
+        completar_tarefa(tarefas, indice_tarefa)
     
     elif escolha == 6:
         print('\nPrograma finalizado.')
